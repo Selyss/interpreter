@@ -4,7 +4,7 @@ from tokens import *
 class Lexer:
     def __init__(self, input):
         self.input = input
-        self.positon = 0
+        self.position = 0
         self.read_position = 0
         self.ch = ""
         self.read_char()
@@ -21,11 +21,11 @@ class Lexer:
             self.ch = 0 # NUL (or EOF)
         else:
             self.ch = self.input[self.read_position]
-        self.positon = self.read_position
+        self.position = self.read_position
         self.read_position += 1
 
     def read_number(self):
-        position = self.positon
+        position = self.position
         while self.ch.isdigit():
             self.read_char()
         return self.input[position:self.position]
@@ -72,9 +72,9 @@ class Lexer:
         return token
     
     def read_identifier(self):
-        position = self.positon
+        position = self.position
         while self.is_letter(self.ch):
             self.read_char()
-        return self.input[position:self.positon]
+        return self.input[position:self.position]
 
 
