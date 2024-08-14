@@ -36,6 +36,8 @@ class Lexer:
             token = Token(TokenType.SEMICOLON, self.ch)
         elif self.ch is None:
             token = Token(TokenType.EOF, "")
+        elif self.ch == 0:
+            token = Token(TokenType.EOF, "")
         else:
             token = None
         
