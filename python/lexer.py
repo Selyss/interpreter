@@ -1,26 +1,17 @@
-import unittest
-from .token import TokenType
-class TestLexer(unittest.TestCase):
-    def test_next_token(self):
-        input = "=+(){},;"
-        tests = [
-            (TokenType.ASSIGN, "="),
-            (TokenType.PLUS, "+"),
-            (TokenType.LPAREN, "("),
-            (TokenType.RPAREN, ")"),
-            (TokenType.LBRACE, "{"),
-            (TokenType.RBRACE, "}"),
-            (TokenType.COMMA, ","),
-            (TokenType.SEMICOLON, ";"),
-            (TokenType.EOF, ""),
-        ]
+class Lexer:
+    def __init__(self, input):
+        self.input = input
+        self.positon = 0
+        self.read_position = 0
+        self.ch = ""
+        self.read_char()
+
+    def read_char(self):
+        if self.read_position >= len(self.input):
+            self.ch = 0
+        else:
+            self.ch = self.input[self.read_position]
+        self.positon = self.read_position
+        self.read_position += 1
+
         
-        lexer = Lexer(input)
-
-        for i, (expected_type, expected_literal) in enumerate(tests):
-            token = lexer.next_token()
-            self.assertEqual(token.type, expected_type, f"tests[{i}] - tokentype wrong. expected={expected_type}, got={token.type}")
-            self.assertEqual(token.literal, expected_literal, f"tests[{i}] - literal wrong. expected={expected_literal}, got={token.literal}")
-
-if __name__ == "__main__":
-    unittest.main()
