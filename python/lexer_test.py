@@ -1,5 +1,7 @@
 import unittest
-from .token import TokenType
+from tokens import *
+from lexer import *
+
 class TestLexer(unittest.TestCase):
     def test_next_token(self):
         input = "=+(){},;"
