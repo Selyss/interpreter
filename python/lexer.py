@@ -24,6 +24,12 @@ class Lexer:
         self.position = self.read_position
         self.read_position += 1
 
+    def peek_char(self):
+        if self.read_position >= len(self.input):
+            return 0
+        else:
+            return self.input[self.read_position]
+
     def read_number(self):
         position = self.position
         while self.ch.isdigit():
@@ -33,7 +39,13 @@ class Lexer:
     def next_token(self):
         self.skip_whitespace()
         if self.ch == "=":
-            token = Token(TokenType.ASSIGN, self.ch)
+            if self.peek_char() == "=":
+                ch = self.ch
+                self.read_char()
+                literal = ch + self.ch
+                token = Token(TokenType.EQ, literal)
+            else:
+                token = Token(TokenType.ASSIGN, self.ch)
         elif self.ch == "+":
             token = Token(TokenType.PLUS, self.ch)
         elif self.ch == "(":
@@ -51,7 +63,13 @@ class Lexer:
         elif self.ch == "-":
             token = Token(TokenType.MINUS, self.ch)
         elif self.ch == "!":
-            token = Token(TokenType.BANG, self.ch)
+            if self.peek_char() == "=":
+                ch = self.ch
+                self.read_char()
+                literal = ch + self.ch
+                token = Token(TokenType.NOT_EQ, literal)
+            else:
+                token = Token(TokenType.BANG, self.ch)
         elif self.ch == "*":
             token = Token(TokenType.ASTERISK, self.ch)
         elif self.ch == "/":

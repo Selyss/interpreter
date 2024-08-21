@@ -24,6 +24,8 @@ class TokenType:
     IF = "IF"
     ELSE = "ELSE"
     RETURN = "RETURN"
+    EQ = "=="
+    NOT_EQ = "!="
 
 class Token:
     def __init__(self, type_, literal):

@@ -19,6 +19,9 @@ class TestLexer(unittest.TestCase):
                 } else {
                     return false;
                 }
+
+                10 == 10;
+                10 != 9;
                 """
         tests = [
             (TokenType.LET, "let"),
@@ -86,6 +89,14 @@ class TestLexer(unittest.TestCase):
             (TokenType.FALSE, "false"),
             (TokenType.SEMICOLON, ";"),
             (TokenType.RBRACE, "}"),
+            (TokenType.INT, "10"),
+            (TokenType.EQ, "=="),
+            (TokenType.INT, "10"),
+            (TokenType.SEMICOLON, ";"),
+            (TokenType.INT, "10"),
+            (TokenType.NOT_EQ, "!="),
+            (TokenType.INT, "9"),
+            (TokenType.SEMICOLON, ";"),
             (TokenType.EOF, "")
         ]
         
