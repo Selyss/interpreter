@@ -1,14 +1,13 @@
-import sys
-from lexer import Lexer
-from token import TokenType
+from lexer import *
+from tokens import *
 
 PROMPT = ">> "
 
 def start():
     while True:
         print(PROMPT, end="")
-        input = sys.stdin.readline()
-        lexer = Lexer(input)
+        user_input = input()
+        lexer = Lexer(user_input)
         while True:
             token = lexer.next_token()
             if token.type == TokenType.EOF:
