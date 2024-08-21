@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import List
 from tokens import *
 
 class Node(ABC):
@@ -19,10 +18,10 @@ class Expression(Node):
 
 class Program(Node):
     def __init__(self):
-        self.statements: List[Statement] = []
+        self.statements: list[Statement] = []
 
     def token_literal(self) -> str:
-        if len(self.statements) > 0:
+        if self.statements:
             return self.statements[0].token_literal()
         else:
             return ""

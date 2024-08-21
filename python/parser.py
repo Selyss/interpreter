@@ -4,9 +4,9 @@ from token import *
 
 class Parser:
     def __init__(self, lexer: Lexer):
-        self.lexer = lexer
-        self.current_token = None
-        self.peek_token = None
+        self.lexer: Lexer = lexer
+        self.current_token: Token = None
+        self.peek_token: Token = None
         
         # Call this twice to initialize current_token and peek_token
         self.next_token()
@@ -18,8 +18,6 @@ class Parser:
     
     def parse_program(self):
         program = Program()
-        program.statements = []
-        
         while self.current_token.type != TokenType.EOF:
             stmt = self.parse_statement()
             if stmt is not None:
@@ -37,16 +35,16 @@ class Parser:
     def parse_let_statement(self):
         stmt = LetStatement(token=self.current_token)
 
-        if not self.expect_peek("IDENT"):
+        if not self.expect_peek(TokenType.IDENT):
             return None
         
-        stmt.name = Identifier(self.current_token, self.current_token.literal)
+        stmt.name = Identifier(token=self.current_token, value=self.current_token.literal)
 
-        if not self.expect_peek("ASSIGN"):
+        if not self.expect_peek(TokenType.ASSIGN):
             return None
         
         # TODO: We're skipping the expressions until we encounter a semicolon
-        while not self.current_token.type == "SEMICOLON":
+        while not self.current_token_is == TokenType.SEMICOLON:
             self.next_token()
 
         return stmt

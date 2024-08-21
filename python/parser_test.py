@@ -14,7 +14,7 @@ class TestParser(unittest.TestCase):
         lexer = Lexer(input_code)
         parser = Parser(lexer)
         program = parser.parse_program()
-
+        
         self.assertIsNotNone(program, "parse_program() returned None")
         self.assertEqual(len(program.statements), 3, f"program.statements does not contain 3 statements. got={len(program.statements)}")
 
@@ -30,7 +30,7 @@ class TestParser(unittest.TestCase):
 
     def test_let_statement(self, stmt, name):
         self.assertEqual(stmt.token_literal(), "let")
-        self.assertIsInstance(stmt, LetStatement, f"stmt not *ast.LetStatement. got={type(stmt)}")
+        self.assertIsInstance(stmt, LetStatement, f"stmt not LetStatement. got={type(stmt)}")
         self.assertEqual(stmt.name.value, name)
         self.assertEqual(stmt.name.token_literal(), name)
         return True
