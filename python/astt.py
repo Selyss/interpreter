@@ -28,7 +28,7 @@ class Program(Node):
             return ""
 
 class LetStatement(Statement):
-    def __init__(self, token: Token, name, value: Expression):
+    def __init__(self, token: Token, name=None, value=None):
         self.token: Token = token
         self.name = name
         self.value: Expression = value
