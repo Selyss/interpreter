@@ -1,6 +1,6 @@
 from astt import *
 from lexer import *
-from token import *
+from tokens import *
 
 class Parser:
     def __init__(self, lexer: Lexer):
@@ -44,7 +44,7 @@ class Parser:
             return None
         
         # TODO: We're skipping the expressions until we encounter a semicolon
-        while not self.current_token_is == TokenType.SEMICOLON:
+        while not self.current_token_is(TokenType.SEMICOLON):
             self.next_token()
 
         return stmt
