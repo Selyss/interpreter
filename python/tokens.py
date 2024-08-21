@@ -13,6 +13,12 @@ class TokenType:
     RBRACE = "}"
     FUNCTION = "FUNCTION"
     LET = "LET"
+    MINUS = "-"
+    BANG = "!"
+    ASTERISK = "*"
+    SLASH = "/"
+    LT = "<"
+    GT = ">"
 
 class Token:
     def __init__(self, type_, literal):

@@ -48,6 +48,18 @@ class Lexer:
             token = Token(TokenType.COMMA, self.ch)
         elif self.ch == ";":
             token = Token(TokenType.SEMICOLON, self.ch)
+        elif self.ch == "-":
+            token = Token(TokenType.MINUS, self.ch)
+        elif self.ch == "!":
+            token = Token(TokenType.BANG, self.ch)
+        elif self.ch == "*":
+            token = Token(TokenType.ASTERISK, self.ch)
+        elif self.ch == "/":
+            token = Token(TokenType.SLASH, self.ch)
+        elif self.ch == "<":
+            token = Token(TokenType.LT, self.ch)
+        elif self.ch == ">":
+            token = Token(TokenType.GT, self.ch)
         elif self.ch is None:
             token = Token(TokenType.EOF, "")
         elif self.ch == 0:
