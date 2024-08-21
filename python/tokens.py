@@ -19,6 +19,11 @@ class TokenType:
     SLASH = "/"
     LT = "<"
     GT = ">"
+    TRUE = "TRUE"
+    FALSE = "FALSE"
+    IF = "IF"
+    ELSE = "ELSE"
+    RETURN = "RETURN"
 
 class Token:
     def __init__(self, type_, literal):
@@ -29,6 +34,11 @@ class Token:
 keywords = {
     "fn": TokenType.FUNCTION,
     "let": TokenType.LET,
+    "true": TokenType.TRUE,
+    "false": TokenType.FALSE,
+    "if": TokenType.IF,
+    "else": TokenType.ELSE,
+    "return": TokenType.RETURN,
 }
 
 def lookup_ident(ident):
