@@ -49,13 +49,13 @@ class Parser:
 
         return stmt
     
-    def current_token_is(self, token_type: str) -> bool:
+    def current_token_is(self, token_type: TokenType) -> bool:
         return self.current_token.type == token_type
     
-    def peek_token_is(self, token_type: str) -> bool:
+    def peek_token_is(self, token_type: TokenType) -> bool:
         return self.peek_token.type == token_type
     
-    def expect_peek(self, token_type: str) -> bool:
+    def expect_peek(self, token_type: TokenType) -> bool:
         if self.peek_token_is(token_type):
             self.next_token()
             return True

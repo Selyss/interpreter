@@ -26,13 +26,26 @@ class TestParser(unittest.TestCase):
 
         for i, test in enumerate(tests):
             stmt = program.statements[i]
-            self.assertTrue(self.test_let_statement(stmt, test["expected_identifier"]))
+            if not self.let_statement_test(stmt, test["expected_identifier"]):
+                return
 
-    def test_let_statement(self, stmt, name):
-        self.assertEqual(stmt.token_literal(), "let")
-        self.assertIsInstance(stmt, LetStatement, f"stmt not LetStatement. got={type(stmt)}")
-        self.assertEqual(stmt.name.value, name)
-        self.assertEqual(stmt.name.token_literal(), name)
+    def let_statement_test(self, stmt: Statement, name: str) -> bool:
+        if stmt.token_literal() != "let":
+            print(f"stmt.token_literal() != 'let', got={stmt.token_literal()}")
+            return False
+        
+        if not isinstance(stmt, LetStatement):
+            print(f"stmt not LetStatement. got={type(stmt)}")
+            return False
+
+        if stmt.name.value != name:
+            print(f"stmt.name.value != {name}. got={stmt.name.value}")
+            return False
+
+        if stmt.name.token_literal() != name:
+            print(f"stmt.name.token_literal() != {name}. got={stmt.name.token_literal()}")
+            return False
+
         return True
     
 if __name__ == "__main__":
