@@ -14,6 +14,7 @@ class TestParser(unittest.TestCase):
         lexer = Lexer(input_code)
         parser = Parser(lexer)
         program = parser.parse_program()
+        self.check_parser_errors(parser)
         
         self.assertIsNotNone(program, "parse_program() returned None")
         self.assertEqual(len(program.statements), 3, f"program.statements does not contain 3 statements. got={len(program.statements)}")
@@ -28,6 +29,16 @@ class TestParser(unittest.TestCase):
             stmt = program.statements[i]
             if not self.let_statement_test(stmt, test["expected_identifier"]):
                 return
+
+    def check_parser_errors(self, parser: Parser):
+        errors = parser.errors
+        if len(errors) == 0:
+            return
+        
+        print(f"parser has {len(errors)} errors")
+        for error in errors:
+            print(f"parser error: {error}")
+        self.fail()
 
     def let_statement_test(self, stmt: Statement, name: str) -> bool:
         if stmt.token_literal() != "let":

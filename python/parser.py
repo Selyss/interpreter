@@ -1,3 +1,4 @@
+from typing import List
 from astt import *
 from lexer import *
 from tokens import *
@@ -7,6 +8,7 @@ class Parser:
         self.lexer: Lexer = lexer
         self.current_token: Token = None
         self.peek_token: Token = None
+        self.errors: List[str] = []
         
         # Call this twice to initialize current_token and peek_token
         self.next_token()
@@ -60,6 +62,11 @@ class Parser:
             self.next_token()
             return True
         else:
+            self.peek_error(token_type)
             return False
         
-
+    def errors(self):
+        return self.errors
+    
+    def peek_error(self, token_type: TokenType):
+        self.errors.append(f"expected next token to be {token_type}, got {self.peek_token.type} instead")
