@@ -59,5 +59,24 @@ class TestParser(unittest.TestCase):
 
         return True
     
+    def test_return_statements(self):
+        input_code = """
+                return 5;
+                return 10;
+                return 993322;
+                """
+        lexer = Lexer(input_code)
+        parser = Parser(lexer)
+        program = parser.parse_program()
+        self.check_parser_errors(parser)
+        
+        self.assertIsNotNone(program, "parse_program() returned None")
+        self.assertEqual(len(program.statements), 3, f"program.statements does not contain 3 statements. got={len(program.statements)}")
+
+        for stmt in program.statements:
+            if not self.return_statement_test(stmt):
+                return
+
+
 if __name__ == "__main__":
     unittest.main()
