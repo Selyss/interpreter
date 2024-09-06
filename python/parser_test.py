@@ -59,6 +59,17 @@ class TestParser(unittest.TestCase):
 
         return True
     
+    def return_statement_test(self, stmt: Statement) -> bool:
+        if stmt.token_literal() != "return":
+            print(f"stmt.token_literal() != 'return'. got={stmt.token_literal()}")
+            return False
+        
+        if not isinstance(stmt, ReturnStatement):
+            print(f"stmt not ReturnStatement. got={type(stmt)}")
+            return False
+
+        return True
+
     def test_return_statements(self):
         input_code = """
                 return 5;
