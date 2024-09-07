@@ -1,7 +1,10 @@
-from typing import List
+from typing import Callable, List
 from astt import *
 from lexer import *
 from tokens import *
+
+prefix_parse_fn = Callable[[], Expression]
+infix_parse_fn = Callable[[Expression], Expression]
 
 class Parser:
     def __init__(self, lexer: Lexer):
@@ -9,7 +12,10 @@ class Parser:
         self.current_token: Token = None
         self.peek_token: Token = None
         self.errors: List[str] = []
-        
+
+        prefix_parse_fns = dict[TokenType, prefix_parse_fn] = {}
+        infix_parse_fns = dict[TokenType, infix_parse_fn] = {}
+
         # Call this twice to initialize current_token and peek_token
         self.next_token()
         self.next_token()
@@ -27,6 +33,12 @@ class Parser:
             self.next_token()
         
         return program
+    
+    def register_prefix(self, token_type: TokenType, fn: prefix_parse_fn):
+        self.prefix_parse_fns[token_type] = fn
+
+    def register_infix(self, token_type: TokenType, fn: infix_parse_fn):
+        self.infix_parse_fns[token_type] = fn
     
     def parse_statement(self):
         if self.current_token.type == TokenType.LET:
