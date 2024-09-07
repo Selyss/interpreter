@@ -60,6 +60,7 @@ class TestParser(unittest.TestCase):
         return True
     
     def return_statement_test(self, stmt: Statement) -> bool:
+        # TODO: maybe combine these with the test itself later
         if stmt.token_literal() != "return":
             print(f"stmt.token_literal() != 'return'. got={stmt.token_literal()}")
             return False
