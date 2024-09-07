@@ -13,8 +13,8 @@ class Parser:
         self.peek_token: Token = None
         self.errors: List[str] = []
 
-        prefix_parse_fns = dict[TokenType, prefix_parse_fn] = {}
-        infix_parse_fns = dict[TokenType, infix_parse_fn] = {}
+        self.prefix_parse_fns: dict[TokenType, prefix_parse_fn] = {}
+        self.infix_parse_fns: dict[TokenType, infix_parse_fn] = {}
 
         # Call this twice to initialize current_token and peek_token
         self.next_token()

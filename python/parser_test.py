@@ -88,6 +88,34 @@ class TestParser(unittest.TestCase):
         for stmt in program.statements:
             if not self.return_statement_test(stmt):
                 return
+    
+    def test_identifier_expression(self):
+        input_code = "foobar;"
+        lexer = Lexer(input_code)
+        parser = Parser(lexer)
+        program = parser.parse_program()
+        self.check_parser_errors(parser)
+
+        self.assertIsNotNone(program, "parse_program() returned None")
+        self.assertEqual(len(program.statements), 1, f"program.statements does not contain 1 statement. got={len(program.statements)}")
+
+        stmt = program.statements[0]
+        if not isinstance(stmt, ExpressionStatement):
+            print(f"program.statements[0] is not ast.ExpressionStatement. got={type(stmt)}")
+            return
+        
+        ident = stmt.expression
+        if not isinstance(ident, Identifier):
+            print(f"exp not ast.Identifier. got={type(ident)}")
+            return
+        
+        if ident.value != "foobar":
+            print(f"ident.value not {ident.value}. got={ident.value}")
+            return
+        
+        if ident.token_literal() != "foobar":
+            print(f"ident.token_literal() not {ident.value}. got={ident.token_literal()}")
+            return
 
 
 if __name__ == "__main__":
