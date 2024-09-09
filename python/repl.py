@@ -13,3 +13,6 @@ def start():
             if token.type == TokenType.EOF:
                 break
             print(f"{{Type: {token.type}, Literal: {token.literal}}}")
+
+if __name__ == "__main__":
+    start()
