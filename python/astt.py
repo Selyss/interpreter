@@ -102,3 +102,17 @@ class ExpressionStatement(Statement):
         if self.expression is not None:
             return self.expression.string()
         return ""
+    
+class IntegerLiteral(Expression):
+    def __init__(self, token: Token, value: int):
+        self.token: Token = token
+        self.value: int = value
+
+    def expression_node(self):
+        pass
+
+    def token_literal(self) -> str:
+        return self.token.literal
+    
+    def string(self) -> str:
+        return self.token.literal

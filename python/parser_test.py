@@ -116,7 +116,34 @@ class TestParser(unittest.TestCase):
         if ident.token_literal() != "foobar":
             print(f"ident.token_literal() not {ident.value}. got={ident.token_literal()}")
             return
+        
+    def test_integer_literal_expression(self):
+        input_code = "5;"
+        lexer = Lexer(input_code)
+        parser = Parser(lexer)
+        program = parser.parse_program()
+        self.check_parser_errors(parser)
 
+        self.assertIsNotNone(program, "parse_program() returned None")
+        self.assertEqual(len(program.statements), 1, f"program.statements does not contain 1 statement. got={len(program.statements)}")
+
+        stmt = program.statements[0]
+        if not isinstance(stmt, ExpressionStatement):
+            print(f"program.statements[0] is not ast.ExpressionStatement. got={type(stmt)}")
+            return
+        
+        literal = stmt.expression
+        if not isinstance(literal, IntegerLiteral):
+            print(f"exp not ast.IntegerLiteral. got={type(literal)}")
+            return
+        
+        if literal.value != 5:
+            print(f"literal.value not 5. got={literal.value}")
+            return
+        
+        if literal.token_literal() != "5":
+            print(f"literal.token_literal() not 5. got={literal.token_literal()}")
+            return
 
 if __name__ == "__main__":
     unittest.main()

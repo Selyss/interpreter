@@ -28,6 +28,7 @@ class Parser:
         self.infix_parse_fns: dict[TokenType, infix_parse_fn] = {}
 
         self.register_prefix(TokenType.IDENT, self.parse_identifier)
+        self.register_prefix(TokenType.INT, self.parse_integer_literal)
 
         # Call this twice to initialize current_token and peek_token
         self.next_token()
@@ -127,3 +128,7 @@ class Parser:
 
     def parse_identifier(self) -> Expression:
         return Identifier(token=self.current_token, value=self.current_token.literal)
+    
+    def parse_integer_literal(self) -> Expression:
+        return IntegerLiteral(token=self.current_token, value=int(self.current_token.literal))
+    
