@@ -1,10 +1,21 @@
 from typing import Callable, List
+from enum import Enum, IntEnum
 from astt import *
 from lexer import *
 from tokens import *
 
 prefix_parse_fn = Callable[[], Expression]
 infix_parse_fn = Callable[[Expression], Expression]
+
+class Precedence(IntEnum):
+    LOWEST = 1
+    EQUALS = 2
+    LESSGREATER = 3
+    SUM = 4
+    PRODUCT = 5
+    PREFIX = 6
+    CALL = 7
+
 
 class Parser:
     def __init__(self, lexer: Lexer):
@@ -15,6 +26,8 @@ class Parser:
 
         self.prefix_parse_fns: dict[TokenType, prefix_parse_fn] = {}
         self.infix_parse_fns: dict[TokenType, infix_parse_fn] = {}
+
+        self.register_prefix(TokenType.IDENT, self.parse_identifier)
 
         # Call this twice to initialize current_token and peek_token
         self.next_token()
@@ -46,7 +59,7 @@ class Parser:
         elif self.current_token.type == TokenType.RETURN:
             return self.parse_return_statement()
         else:
-            return None
+            return self.parse_expression_statement()
     
     def parse_let_statement(self):
         stmt = LetStatement(token=self.current_token)
@@ -75,6 +88,14 @@ class Parser:
         
         return stmt
         
+    def parse_expression_statement(self):
+        stmt = ExpressionStatement(token=self.current_token)
+        stmt.expression = self.parse_expression(Precedence.LOWEST)
+
+        if self.peek_token_is(TokenType.SEMICOLON):
+            self.next_token()
+        
+        return stmt
     
     def current_token_is(self, token_type: TokenType) -> bool:
         return self.current_token.type == token_type
@@ -95,3 +116,14 @@ class Parser:
     
     def peek_error(self, token_type: TokenType):
         self.errors.append(f"expected next token to be {token_type}, got {self.peek_token.type} instead")
+
+    def parse_expression(self, precedence: Precedence) -> Expression:
+        prefix = self.prefix_parse_fns.get(self.current_token.type)
+        if prefix is None:
+            return None
+        
+        left_exp = prefix()
+        return left_exp
+
+    def parse_identifier(self) -> Expression:
+        return Identifier(token=self.current_token, value=self.current_token.literal)
