@@ -1,4 +1,4 @@
-type TokenType = string;
+export type TokenType = string;
 
 export interface Token {
     type: TokenType;
